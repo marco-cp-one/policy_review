@@ -3,55 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | AI Governance Portal</title>
+    <title>Policy Review Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Animated background effect */
-        body { 
-            background-color: #0f172a;
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(147, 51, 234, 0.15) 0px, transparent 50%);
+        /* Custom Floating Animation */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .floating-icon {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* Glow Effect behind the document */
+        .glow-effect {
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.4) 0%, rgba(59, 130, 246, 0) 70%);
         }
     </style>
 </head>
-<body class="text-gray-200 min-h-screen flex flex-col justify-center items-center p-4">
+<body class="bg-slate-950 min-h-screen flex flex-col justify-center items-center overflow-hidden font-sans selection:bg-blue-500 selection:text-white">
 
-    <div class="w-full max-w-md bg-gray-900/80 backdrop-blur-lg border border-gray-700/50 rounded-2xl shadow-2xl p-8 transform transition-all hover:border-gray-600">
+    <a href="dashboard.html" class="group relative flex flex-col items-center cursor-pointer transition-transform duration-500 hover:scale-105">
         
-        <div class="text-center mb-8">
-            <div class="inline-flex items-center justify-center h-14 w-14 rounded-full bg-blue-900/30 text-blue-400 mb-4 ring-1 ring-blue-500/50">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
-            </div>
-            <h2 class="text-2xl font-bold tracking-tight text-white">System Access</h2>
-            <p class="text-sm text-gray-400 mt-2">Please authenticate to view the Policy Hub.</p>
+        <div class="absolute inset-0 w-64 h-64 bg-blue-600/20 blur-[80px] rounded-full opacity-50 group-hover:opacity-80 transition-opacity duration-700"></div>
+
+        <div class="floating-icon relative z-10 w-32 h-32 md:w-40 md:h-40 drop-shadow-2xl">
+            <svg viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full filter drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]">
+                <path d="M10 0H70L100 30V110C100 115.523 95.5228 120 90 120H10C4.47715 120 0 115.523 0 110V10C0 4.47715 4.47715 0 10 0Z" fill="#3B82F6"/>
+                <path d="M70 0V30H100" fill="#2563EB"/>
+                <rect x="20" y="45" width="60" height="6" rx="3" fill="white" fill-opacity="0.9"/>
+                <rect x="20" y="65" width="60" height="6" rx="3" fill="white" fill-opacity="0.9"/>
+                <rect x="20" y="85" width="40" height="6" rx="3" fill="white" fill-opacity="0.9"/>
+            </svg>
         </div>
 
-        <div class="space-y-5">
-            <div>
-                <label class="block text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Email Address</label>
-                <input type="email" placeholder="admin@company.com" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-200 placeholder-gray-600 transition-colors" />
+        <div class="relative z-10 mt-12 text-center space-y-3">
+            <h1 class="text-3xl md:text-4xl font-bold text-white tracking-tight group-hover:text-blue-400 transition-colors duration-300">
+                AI Review Policy Hub
+            </h1>
+            <div class="flex items-center justify-center gap-2 text-gray-400 text-sm md:text-base uppercase tracking-widest font-medium group-hover:text-gray-200 transition-colors">
+                <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+                Click to Access
             </div>
-            
-            <div>
-                <label class="block text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Password</label>
-                <input type="password" placeholder="••••••••" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-200 placeholder-gray-600 transition-colors" />
-            </div>
-
-            <a href="dashboard.html" class="block w-full py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-lg text-center transition-all duration-200 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transform hover:-translate-y-0.5">
-                Sign In
-            </a>
         </div>
 
-        <div class="mt-8 text-center border-t border-gray-800 pt-6">
-            <p class="text-xs text-gray-500">
-                Restricted Area • Authorized Personnel Only <br>
-                <span class="opacity-50">v2.4.0 Secure Connection</span>
-            </p>
-        </div>
+    </a>
 
+    <div class="fixed bottom-8 text-slate-600 text-xs tracking-wider">
+        Built by Marco Condemi-Polimeni
     </div>
 
 </body>
