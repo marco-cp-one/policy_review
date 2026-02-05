@@ -88,7 +88,7 @@
         <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <!-- Link back to Index -->
-                <a href="index.html" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+                <a href="#" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
                     <div class="bg-gradient-to-br from-blue-600 to-blue-700 text-white p-2 rounded-lg shadow-md">
                         <i data-lucide="layers" class="w-6 h-6"></i>
                     </div>
@@ -324,11 +324,11 @@
 
                 <div class="p-6 space-y-6">
                     <!-- Logic Box -->
-                    <div class="bg-gray-50 rounded-xl border border-gray-200 p-5">
-                        <h4 class="font-heading flex items-center gap-2 text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">
-                            <i data-lucide="eye" class="w-4 h-4"></i> Audit Logic & Proof of Scrutiny
+                    <div class="bg-gray-50 rounded-xl border border-gray-200 p-5 shadow-inner">
+                        <h4 class="font-heading flex items-center gap-2 text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">
+                            <i data-lucide="eye" class="w-4 h-4"></i> Audit Logic & Rationale
                         </h4>
-                        <div id="section-logic-container" class="space-y-3"></div>
+                        <div id="section-logic-container" class="space-y-1"></div>
                     </div>
 
                     <!-- Prompt Box -->
@@ -433,43 +433,44 @@
         };
 
         const SECTIONS = [
-            { id: "6.1", title: "Overview", type: "HYBRID", logic: "Para 1-2: [G] Describes process flow... Para 3: [P] Mandates selection criteria... Para 4: [G] 'Procurement officials should consider...'" },
-            { id: "6.2", title: "Types of competition", type: "PURE GUIDANCE", logic: "Para 1: [G] Contextual lead-in... No mandates." },
-            { id: "6.2.1", title: "Open international competition", type: "HYBRID", logic: "Para 1: [P] Default method... Para 2: [G] Lists cases... Para 3: [P] Restriction." },
-            { id: "6.2.2", title: "Limited international competition", type: "HYBRID", logic: "Para 1: [G] Definition... Para 2: [P] Prior written permission... Para 5: [G] Endeavour to ensure..." },
-            { id: "6.2.3", title: "Sole sourcing or direct contracting", type: "PURE GUIDANCE", logic: "Para 1: [G] Definitions... Para 2: [G] Navigation instruction." },
-            { id: "6.3", title: "Solicitation methods", type: "HYBRID", logic: "Para 1: [P] Sets thresholds... Para 2: [G] Flexibility/Option." },
-            { id: "6.3.1", title: "Shopping", type: "HYBRID", logic: "Para 1: [G] Definition... Para 2: [P] Procedural instruction... Para 3: [P] Core requirement." },
-            { id: "6.3.2", title: "Request for quotation", type: "HYBRID", logic: "Para 2: [P] Templates mandatory... Para 3: [P] 3 suppliers invited... Para 3: [G] Best practice." },
-            { id: "6.3.3", title: "Invitation to bid", type: "HYBRID", logic: "Para 1: [P] Mandatory threshold... Para 2: [G] Describes one-envelope system." },
-            { id: "6.3.4", title: "Request for proposal", type: "HYBRID", logic: "Para 1: [P] Threshold > 250k... Para 2: [G] Two-envelope system... Para 3: [P] Minimum passing threshold." },
-            { id: "6.3.5", title: "Selection of method for works", type: "HYBRID", logic: "Para 1: [P] Prohibition... Bullets: [G] Thinking process... Bullets: [P] Authority." },
-            { id: "6.3.6", title: "Alternative procedures", type: "HYBRID", logic: "Para 1: [G] Summarizes existing... Para 4: [P] Subject to approval... Para 5: [P] Requirement." },
-            { id: "6.4", title: "Solicitation documents", type: "HYBRID", logic: "Para 1: [P] Standard docs mandatory... Para 2: [P] Prohibition... Para 3: [G] Context." },
-            { id: "6.5", title: "Components of solicitation docs", type: "HYBRID", logic: "List: [G] Components... Para 2: [G] Instructional Must... Para 3: [P] Prohibition." },
-            { id: "6.5.1", title: "Letter of invitation", type: "PURE POLICY", logic: "Para 1: [P] Must include letter, reference, and list." },
-            { id: "6.5.2", title: "Particulars and instructions", type: "HYBRID", logic: "Intro: [P] Authority... Table: [G] Recommended... Table: [P] Prohibition." },
-            { id: "6.5.3", title: "Evaluation criteria", type: "HYBRID", logic: "Para 1: [P] Requirement... Para 2: [G] Best Practice." },
-            { id: "6.5.3.1", title: "Formal and eligibility criteria", type: "HYBRID", logic: "Para 1: [G] Process... Bullets: [P] Requirement... Bullets: [P] Core Requirement." },
-            { id: "6.5.3.2", title: "Qualification and technical criteria", type: "HYBRID", logic: "Para 1: [G] Process... Para 2: [P] Methodology Mandate... Bullets: [G] Suggestions." },
-            { id: "6.5.3.3", title: "Financial criteria", type: "HYBRID", logic: "Para 1: [G] Best Practice... Para 2: [P] Restriction... Para (TCO): [G] Recommendation." },
-            { id: "6.5.3.4", title: "Criteria for joint ventures", type: "HYBRID", logic: "Para 1: [G] Context... Point (i): [P] Liability Rule... Point (iv): [P] Requirement." },
-            { id: "6.5.3.5", title: "Criteria for sub-contractors", type: "PURE POLICY", logic: "Para 1: [P] Requirement... Points (a-d): [P] Explicit eligibility criteria." },
-            { id: "6.5.4", title: "Schedule of requirements", type: "HYBRID", logic: "Para 1: [G] Permissive... Point (f): [P] Incoterms requirement." },
-            { id: "6.5.5", title: "Returnable bidding forms", type: "HYBRID", logic: "Para 1: [P] Requirement... Para 2/Table: [G] Examples." },
-            { id: "6.5.6", title: "Contractual information", type: "HYBRID", logic: "Point (a): [P] Requirement... Point (c): [P] Authority... Point (f): [G] Context." },
-            { id: "6.6.1", title: "Approval of documents", type: "PURE POLICY", logic: "Para 1: [P] Authority mandate. Para 1: [P] Pre-clearance requirement." },
-            { id: "6.6.2", title: "Distribution of documents", type: "PURE POLICY", logic: "Para 1: [P] eSourcing required. Para 2: [P] Fairness mandate. Para 3: [P] Pre-clearance." },
-            { id: "6.6.3", title: "Confidentiality of short list", type: "PURE POLICY", logic: "Para 1: [P] Prohibition on disclosure." },
-            { id: "6.6.4", title: "Amendments to documents", type: "HYBRID", logic: "Para 1: [P] Requirement... Para 2: [P] Authority... Para 3: [G] Thinking Process." },
-            { id: "6.6.5", title: "Cancellation of process", type: "PURE POLICY", logic: "Para 1: [P] Authority... Para 2: [P] Requirement." },
-            { id: "6.6.6", title: "Solicitation... direct contracting", type: "HYBRID", logic: "Para 2: [P] Requirement... Para 3: [P] Requirement... Para 4: [G] Permissive." },
-            { id: "6.6.7", title: "Solicitation against LTAs", type: "HYBRID", logic: "Para 1: [G] Context... Bullet 2: [P] Template requirement... Bullet 2: [P] Authority." },
-            { id: "6.7", title: "Communication with vendors", type: "HYBRID", logic: "Para 1: [P] Prohibition... Para 4(b): [G] Best Practice... Para 4(f): [G] Guidance." },
-            { id: "6.8.1", title: "Exceptions", type: "PURE POLICY", logic: "Para 1: [P] Authority... Points (i-x): [P] Legal grounds/Criteria." },
-            { id: "6.8.2", title: "Pre-selection", type: "HYBRID", logic: "Para 2: [P] Requirement... Para 2(i): [P] Requirement... Para 3: [G] Clarification." },
-            { id: "6.9", title: "Emergencies", type: "PURE GUIDANCE", logic: "Text: [G] Navigation/Cross-reference." },
-            { id: "6.10", title: "E-tendering", type: "HYBRID", logic: "Para 2: [P] Rule... Para 3: [G] Recommendation... Para 6: [P] Requirement." },
+            { id: "6.1", title: "Overview", type: "HYBRID", logic: "• Para 3: [P] \"Selection... **must** be based on...\"<br>• Para 4: [G] \"Procurement officials **should consider** the following steps...\"<br>• Para 5: [P] \"Contracts **shall** be awarded on the basis of effective competition.\"<br>**Conclusion:** Mandatory selection criteria mixed with recommended process steps." },
+            { id: "6.2", title: "Types of competition", type: "PURE GUIDANCE", logic: "• Para 1: [G] \"selecting the type of competition... is an important step.\"<br>• Para 1: [G] \"Various types... **may** be used, depending on...\"<br>**Conclusion:** Introductory context and discretionary options only." },
+            { id: "6.2.1", title: "Open international competition", type: "HYBRID", logic: "• Para 1: [C] Defines default method.<br>• Para 3: [G] \"National/regional tenders are **typically conducted** in the following cases...\"<br>• Para 4: [P] \"Business units **must opt** for open rather than limited competition.\"<br>**Conclusion:** Mandate to use open competition (P) with a list of typical scenarios (G)." },
+            { id: "6.2.2", title: "Limited international competition", type: "HYBRID", logic: "• Para 2: [P] \"Officials **must obtain** prior written permission.\"<br>• Para 5: [P] \"**Shall** foster the development of local markets.\"<br>• Para 6: [G/P] \"Business units **must continue to endeavour** to ensure...\" (Mandate to try, implies discretion/guidance on effort).<br>**Conclusion:** Primarily policy, but the obligation to \"endeavour\" introduces a procedural effort component." },
+            { id: "6.2.3", title: "Sole sourcing or direct contracting", type: "PURE GUIDANCE", logic: "• Para 1: [C] Definition of sole sourcing.<br>• Para 1: [G] \"UNOPS **may solicit** an offer...\" (Permissive).<br>• Para 2: [G] \"Please **refer to section 6.8**...\"<br>**Conclusion:** Definitions + Instructional cross-referencing." },
+            { id: "6.3", title: "Solicitation methods", type: "HYBRID", logic: "• Para 1: [P] Thresholds **\"are only required\"**.<br>• Para 2: [G] RFP \"**can also be used** for lower value... if appropriate.\"<br>• Table 2: [P] Mandatory thresholds for specific methods.<br>**Conclusion:** Hard rules on thresholds mixed with discretionary options." },
+            { id: "6.3.1", title: "Shopping", type: "HYBRID", logic: "• Para 1: [C] Definition.<br>• Para 2: [P] \"Prices taken orally **must be written down**.\"<br>• Para 5: [G] \"Business units... **should consider** the establishment of a BPA.\"<br>**Conclusion:** Operational rules (P) + Strategic advice (G)." },
+            { id: "6.3.2", title: "Request for quotation", type: "HYBRID", logic: "• Para 2: [P] \"Use of RFQ templates is **mandatory**.\"<br>• Para 3: [G] \"Officials **should consider** inviting women-owned... businesses.\"<br>**Conclusion:** Compliance rules (P) mixed with diversity encouragement (G)." },
+            { id: "6.3.3", title: "Invitation to bid", type: "HYBRID", logic: "• Para 1: [P] \"**Mandatory** for procurements equal to or above...\"<br>• Para 1: [G] \"**Can also be used** for lower value... if the PA determines it beneficial.\"<br>• Para 2: [P] \"Use of templates is **mandatory**.\"<br>**Conclusion:** Strict mandates (P) with discretionary permissions (G)." },
+            { id: "6.3.4", title: "Request for proposal", type: "HYBRID", logic: "• Para 1: [P] \"Only **required** for procurement equal or above...\"<br>• Para 3: [G] \"Weighting **needs to be considered** on a case-by-case basis.\"<br>• Para 5: [G] \"UNOPS **may choose to include** estimates...\"<br>**Conclusion:** Rules on envelope systems (P) mixed with advice on weighting criteria (G)." },
+            { id: "6.3.5", title: "Selection of solicitation method for works", type: "HYBRID", logic: "• Para 1: [P] \"Standard documents for goods... **must not be used**.\"<br>• Para 2 (Bullet 1): [G] \"In case of doubts, IPAS PMI **should be contacted** for advice.\"<br>• Para 2 (Bullet 2): [G] \"**It is important to choose** the contract based on...\"<br>**Conclusion:** Strict prohibitions (P) mixed with \"how-to\" selection advice (G)." },
+            { id: "6.3.6", title: "Alternative procedures for... innovation", type: "HYBRID", logic: "• Para 1: [C] List of existing procedures.<br>• Para 4: [P] \"**Subject to approval** by the Director, PG.\"<br>• Para 5: [P] \"Tender **must include** clear instructions.\"<br>**Conclusion:** Contextual lists (C) + Authorization rules (P)." },
+            { id: "6.4", title: "Solicitation documents", type: "PURE POLICY", logic: "• Para 1: [P] \"Standard documents **must be used**.\"<br>• Para 2: [P] \"Changes... **require prior clearance**.\"<br>• Para 2: [P] \"Documents **must not include**... conditions that contradict...\"<br>**Conclusion:** 100% Mandatory compliance rules." },
+            { id: "6.5", title: "Components of solicitation documents", type: "PURE POLICY", logic: "• Para 2: [P] \"**Must contain** all information...\"<br>• Para 3: [P] \"Requirements **must not be changed** after...\"<br>**Conclusion:** Rules defining the integrity and content of documents." },
+            { id: "6.5.1", title: "Letter of invitation", type: "PURE POLICY", logic: "• Para 1: [P] \"**Must include** on the first page...\"<br>**Conclusion:** Single mandatory requirement." },
+            { id: "6.5.2", title: "Particulars and instructions to bidders", type: "HYBRID", logic: "• Para 1: [P] \"**Must not be changed**... without clearance.\"<br>• Item (d): [G] \"**It is recommended** to hold a pre-bid conference.\"<br>• Item (d): [G] \"Necessity of site visits **should be decided**...\"<br>**Conclusion:** Modification rules (P) mixed with event planning advice (G)." },
+            { id: "6.5.3", title: "Evaluation criteria", type: "HYBRID", logic: "• Para 1: [P] Documents \"**must state** the evaluation method.\"<br>• Para 3: [G] \"Practitioners **are recommended** to perform a simulation.\"<br>**Conclusion:** Disclosure mandates (P) + Best practice recommendation (G)." },
+            { id: "6.5.3.1", title: "Formal and eligibility criteria", type: "HYBRID", logic: "• List: [C] Examples of criteria.<br>• Para 2 (Bullet 2): [P] \"Procurement official **must ascertain** if the bidder has...\"<br>• Para 2 (Bullet 2): [C/G] Explanation of \"historical documents\".<br>**Conclusion:** Operational instructions (P) mixed with definitions and examples (C/G)." },
+            { id: "6.5.3.2", title: "Qualification and technical criteria", type: "HYBRID", logic: "• Para 2: [G] \"The following aspects **could be considered**...\"<br>• Para 3: [P] Usage of adverse reports **\"shall be limited\"**.<br>• Para 5: [G] \"The **usual way to do this is**...\"<br>**Conclusion:** Permissive lists (G) mixed with strict limitations (P)." },
+            { id: "6.5.3.3", title: "Financial criteria", type: "HYBRID", logic: "• Para 2: [P] \"Required breakdown... **must be clearly stated**.\"<br>• Item (i): [G] \"TCO **should be used** when...\"<br>• Item (ii): [P] \"DDP... **must not be used**.\"<br>**Conclusion:** Mix of prohibitions (P) and usage guidelines (G)." },
+            { id: "6.5.3.4", title: "Evaluation criteria for joint ventures", type: "HYBRID", logic: "• Item (i): [P] \"**Shall be jointly and severally liable**.\"<br>• Para 2: [G] \"Usually... refer to...\" (Describing standard practice).<br>• Item (iv): [P] \"**Must meet** the eligibility conditions.\"<br>**Conclusion:** Liability rules (P) mixed with descriptions of standard practice (G)." },
+            { id: "6.5.3.5", title: "Evaluation criteria for sub-contractors", type: "PURE POLICY", logic: "• Para 1: [P] \"Sub-contractors **must meet** the eligibility conditions.\"<br>• List (a-d): [P] Criteria for exclusion.<br>**Conclusion:** Strict eligibility rules." },
+            { id: "6.5.4", title: "Schedule of requirements", type: "HYBRID", logic: "• Item (b): [G] \"**It is important to clearly state**... Ambiguous requirements **may also lead** to...\"<br>• Item (f): [P] \"Incoterms 2020 **shall be used**.\"<br>**Conclusion:** Best practice warnings (G) mixed with mandatory standards (P)." },
+            { id: "6.5.5", title: "Returnable bidding forms/schedules", type: "HYBRID", logic: "• Para 1: [P] \"**Must include** specific forms.\"<br>• Table 5: [C] Examples of forms.<br>• Bullets: [G] \"Care **must also be taken**...\" (Instructional tone).<br>**Conclusion:** Mandates (P) supported by examples and instructions (G)." },
+            { id: "6.5.6", title: "Contractual information", type: "HYBRID", logic: "• Item (a): [P] \"**Must either be included**... or else reference **must be made**.\"<br>• Item (c): [P] \"Legal Advisor **must clear** any special terms.\"<br>• Item (d): [G] \"**Should be incorporated** in certain circumstances...\"<br>**Conclusion:** Clearance rules (P) mixed with situational guidance (G)." },
+            { id: "6.6", title: "Invitation of vendors", type: "PURE POLICY", logic: "• Para 1: [P] \"The following steps **must be undertaken**.\"<br>**Conclusion:** Lead-in sentence establishing a mandate." },
+            { id: "6.6.1", title: "Approval of solicitation documents", type: "PURE POLICY", logic: "• Para 1: [P] \"**Must be approved** by a PA...\"<br>• Para 1: [P] \"Pre-clearance... **must be conducted**.\"<br>**Conclusion:** Strict approval hierarchy rules." },
+            { id: "6.6.2", title: "Distribution of solicitation documents", type: "PURE POLICY", logic: "• Para 2: [P] \"Documents **shall be issued**...\"<br>• Para 3: [P] \"Short list **must be pre-cleared**.\"<br>• Para 4: [P] \"Signed copy... **must be kept**.\"<br>**Conclusion:** 100% Process mandates." },
+            { id: "6.6.3", title: "Confidentiality of the short list", type: "PURE POLICY", logic: "• Para 1: [P] \"UNOPS **shall not disclose**...\"<br>**Conclusion:** Strict prohibition." },
+            { id: "6.6.4", title: "Amendments to solicitation documents", type: "HYBRID", logic: "• Para 2: [P] \"Amendments... **must be approved**.\"<br>• Para 3: [G] \"This **should be assessed** on a case-by-case basis.\"<br>**Conclusion:** Approval rules (P) with discretionary assessment advice (G)." },
+            { id: "6.6.5", title: "Cancellation of the solicitation process", type: "PURE POLICY", logic: "• Para 1: [P] \"**Reserves the right** to cancel...\"<br>• Para 1: [P] \"PA **must approve** all cancellations.\"<br>• Para 2: [P] \"**Must make sure** all bid securities are returned.\"<br>**Conclusion:** Authority and obligation rules." },
+            { id: "6.6.6", title: "Solicitation... under sole sourcing", type: "HYBRID", logic: "• Para 2: [P] \"Modality... **does not diminish** the responsibilities.\"<br>• Para 3: [P] \"The following... **shall still be required**.\"<br>• Para 4: [G] \"Use of standard... **is not necessary**.\"<br>• Para 4: [G] \"Officials **can request** the supplier to...\"<br>**Conclusion:** Mandatory steps (P) mixed with procedural shortcuts/options (G)." },
+            { id: "6.6.7", title: "Solicitation of offers against LTAs", type: "HYBRID", logic: "• Para 1: [G] \"Offers **should be solicited**...\" (Guidance).<br>• Bullet 1: [G] \"Officials **can contact**...\" (Option).<br>• Bullet 2: [P] \"**Mandatory to use** an RFQ template.\"<br>**Conclusion:** Mix of discretionary options (G) and mandatory templates (P)." },
+            { id: "6.7", title: "Communication with vendors", type: "HYBRID", logic: "• Para 1: [P] \"No communication... **is permitted**.\"<br>• Para 6 (Item f): [G] \"Representatives **should be reminded**...\"<br>• Para 7: [G] \"**It is recommended** to prepare...\"<br>**Conclusion:** Strict prohibitions (P) mixed with soft skills/advice (G)." },
+            { id: "6.8.1", title: "Exceptions", type: "PURE POLICY", logic: "• Para 1: [P] \"ECPO... **may award**.\"<br>• Para 2: [P] \"**Justification required**...\" (Repeated throughout).<br>• List (i-x): [P] Defines legal criteria for exceptions.<br>**Conclusion:** Defines regulatory authority and required evidence. No \"how-to\" advice." },
+            { id: "6.8.2", title: "Pre-selection", type: "HYBRID", logic: "• Para 1: [P] \"ECPO **may authorize**...\"<br>• Para 2: [P] \"The following principles **shall apply**.\"<br>• Para 4: [G] \"Pre-selection **should not be confused** with the no objection mechanism.\"<br>**Conclusion:** Policy on authority mixed with clarification/guidance." },
+            { id: "6.9", title: "Emergencies", type: "PURE GUIDANCE", logic: "• Text: [G] \"Please **refer to section 15.4.4**...\"<br>**Conclusion:** Navigational signpost only." },
+            { id: "6.10", title: "E-tendering", type: "HYBRID", logic: "• Para 3: [P] \"UNOPS **shall not be responsible**...\"<br>• Para 4: [G] \"Bidders **should check** any documents...\"<br>• Para 7 (Item a): [G] \"Due diligence **should be exercised**...\"<br>**Conclusion:** Legal disclaimers (P) mixed with user instructions (G)." }
         ];
 
         let currentFilter = 'ALL';
@@ -562,6 +563,9 @@
                         promptKey = "hybrid_reconstruct";
                     }
 
+                    // Strip HTML tags for preview to avoid clutter
+                    const logicPreview = section.logic.replace(/<[^>]*>/g, ' ').substring(0, 100) + "...";
+
                     // JSON stringify for passing to onclick
                     const sectionStr = JSON.stringify(section).replace(/"/g, '&quot;');
 
@@ -587,7 +591,7 @@
                             <strong class="block text-gray-400 text-[10px] uppercase font-bold mb-2 flex items-center gap-1">
                                 Audit Logic / Rationale
                             </strong>
-                            <p class="line-clamp-2 text-gray-700 leading-relaxed">${section.logic}</p>
+                            <p class="line-clamp-2 text-gray-700 leading-relaxed text-xs">${logicPreview}</p>
                         </div>
 
                         <div class="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
@@ -632,56 +636,68 @@
             let simulationHTML = "";
             const filename = section.type === 'HYBRID' ? 'Hybrid_Analysis_View.md' : 'Extracted_Document.md';
 
+            // Split logic by <br> or • to create items
+            let lines = section.logic.split(/<br\s*\/?>/i);
+            lines = lines.map(l => l.trim()).filter(l => l.length > 0);
+
             // Configure based on type
             if (section.type === "PURE POLICY") {
                 typeColor = "text-red-700 bg-red-50 border-red-200";
                 promptKey = "policy_extract";
                 routingText = "Logic: Contains only mandates. Sent to Policy Extractor for 'Clean Register'.";
-                simulationHTML = `<div class="p-6 rounded-lg bg-red-50 border border-red-100 mb-4">${section.logic}</div>`;
             } else if (section.type === "PURE GUIDANCE") {
                 typeColor = "text-green-700 bg-green-50 border-green-200";
                 promptKey = "guidance_extract";
                 routingText = "Logic: Contains only instructions. Sent to Guidance Extraction.";
-                simulationHTML = `<div class="p-6 rounded-lg bg-green-50 border border-green-100 mb-4">${section.logic}</div>`;
             } else {
                 typeColor = "text-orange-700 bg-orange-50 border-orange-200";
                 promptKey = "hybrid_reconstruct";
                 routingText = "Logic: Contains both Policy and Guidance. Sent to reconstruction prompt. Policy elements dyed RED, Guidance elements dyed GREEN.";
+            }
+
+            // Generate Simulation HTML from Logic Lines
+            simulationHTML = lines.map(line => {
+                const isPolicy = line.includes("[P]");
+                const isGuidance = line.includes("[G]");
+                const isConclusion = line.toLowerCase().includes("conclusion:");
                 
-                // Parse Logic for Hybrid Sim
-                const parts = section.logic.split("...").map(p => p.trim()).filter(p => p.length > 0);
-                simulationHTML = parts.map(part => {
-                    const isPolicy = part.includes("[P]");
-                    const isGuidance = part.includes("[G]");
-                    const cleanText = part.replace(/\[P\]|\[G\]/g, "").trim();
-                    
-                    let bgClass = "bg-gray-50 border-gray-300";
-                    let textClass = "text-gray-600";
-                    let labelClass = "text-gray-400";
-                    let label = "NEUTRAL";
+                // Remove Markdown formatting for simulation view (simple text)
+                const cleanText = line.replace(/\[P\]|\[G\]|\[C\]/g, "").replace(/\*\*/g, "").replace(/^•\s*/, "").trim();
+                
+                let bgClass = "bg-gray-50 border-gray-300";
+                let textClass = "text-gray-600";
+                let labelClass = "text-gray-400";
+                let label = "NEUTRAL / CONTEXT";
 
-                    if(isPolicy) {
-                        bgClass = "bg-red-50 border-red-400";
-                        textClass = "text-red-900 font-medium";
-                        labelClass = "text-red-500";
-                        label = "POLICY ELEMENT";
-                    } else if(isGuidance) {
-                        bgClass = "bg-green-50 border-green-400";
-                        textClass = "text-green-800 italic";
-                        labelClass = "text-green-600";
-                        label = "GUIDANCE ELEMENT";
-                    }
+                if(isConclusion) {
+                    bgClass = "bg-blue-50 border-blue-400";
+                    textClass = "text-blue-900 font-bold";
+                    label = "AI VERDICT";
+                    labelClass = "text-blue-600";
+                } else if(isPolicy) {
+                    bgClass = "bg-red-50 border-red-400";
+                    textClass = "text-red-900 font-medium";
+                    labelClass = "text-red-500";
+                    label = "POLICY ELEMENT";
+                } else if(isGuidance) {
+                    bgClass = "bg-green-50 border-green-400";
+                    textClass = "text-green-800 italic";
+                    labelClass = "text-green-600";
+                    label = "GUIDANCE ELEMENT";
+                }
 
-                    return `
-                        <div class="p-4 rounded-lg border-l-4 mb-6 ${bgClass}">
-                            <span class="block text-xs font-bold uppercase mb-2 font-sans ${labelClass}">${label}</span>
-                            <p class="${textClass}">"${cleanText}..."</p>
-                        </div>
-                    `;
-                }).join('') + 
-                `<div class="absolute bottom-10 right-10 opacity-10 rotate-[-12deg] pointer-events-none">
-                    <span class="text-6xl font-black text-red-600 border-4 border-red-600 p-4 rounded-xl uppercase tracking-widest">
-                        Hybrid Section
+                return `
+                    <div class="p-4 rounded-lg border-l-4 mb-4 ${bgClass}">
+                        <span class="block text-xs font-bold uppercase mb-2 font-sans ${labelClass}">${label}</span>
+                        <p class="${textClass}">${cleanText}</p>
+                    </div>
+                `;
+            }).join('');
+            
+            if(section.type === 'HYBRID') {
+                simulationHTML += `<div class="mt-8 text-center opacity-20 pointer-events-none">
+                    <span class="text-6xl font-black text-red-600 border-4 border-red-600 p-4 rounded-xl uppercase tracking-widest rotate-[-12deg] inline-block">
+                        Hybrid
                     </span>
                  </div>`;
             }
@@ -695,22 +711,29 @@
             document.getElementById('section-modal-title').textContent = section.title;
             document.getElementById('section-modal-id').textContent = `Section ${section.id}`;
             
-            // Logic breakdown
-            const logicHTML = section.logic.split("...").map(line => {
-                if(!line.trim()) return '';
+            // Logic breakdown (Sidebar)
+            const logicSidebarHTML = lines.map(line => {
                 const isP = line.includes("[P]");
                 const isG = line.includes("[G]");
+                const isConclusion = line.toLowerCase().includes("conclusion:");
+                
                 let dotColor = "bg-gray-300";
                 if(isP) dotColor = "bg-red-500";
                 if(isG) dotColor = "bg-green-500";
+                if(isConclusion) dotColor = "bg-blue-500";
+
+                // Convert markdown bold to HTML bold
+                let content = line.replace(/\*\*(.*?)\*\*/g, '<strong class="text-gray-900">$1</strong>');
+                // Remove bullet
+                content = content.replace(/^•\s*/, '');
 
                 return `
-                <div class="flex gap-3 text-sm leading-relaxed">
+                <div class="flex gap-3 text-sm leading-relaxed mb-3">
                     <div class="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 ${dotColor}"></div>
-                    <p class="text-gray-700">${line.replace(/\[P\]|\[G\]/g, "").trim()}</p>
+                    <div class="text-gray-600 ${isConclusion ? 'font-medium bg-blue-50 p-2 rounded w-full' : ''}">${content}</div>
                 </div>`;
             }).join('');
-            document.getElementById('section-logic-container').innerHTML = logicHTML;
+            document.getElementById('section-logic-container').innerHTML = logicSidebarHTML;
 
             // Prompt Preview
             document.getElementById('section-prompt-name').textContent = `Applied Prompt: ${prompt.shortName}`;
