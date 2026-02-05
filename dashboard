@@ -87,13 +87,16 @@
     <header class="bg-white border-b border-gray-200 sticky top-0 z-30 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <div class="bg-gradient-to-br from-blue-600 to-blue-700 text-white p-2 rounded-lg shadow-md">
-                    <i data-lucide="layers" class="w-6 h-6"></i>
-                </div>
-                <div>
-                    <h1 class="font-heading font-bold text-xl leading-none tracking-tight text-gray-900">Policy Audit Dashboard</h1>
-                    <p class="text-xs text-gray-500 mt-0.5 font-medium">Automated Policy & Guidance Extraction Workflow</p>
-                </div>
+                <!-- Link back to Index -->
+                <a href="index.html" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+                    <div class="bg-gradient-to-br from-blue-600 to-blue-700 text-white p-2 rounded-lg shadow-md">
+                        <i data-lucide="layers" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-heading font-bold text-xl leading-none tracking-tight text-gray-900">Policy Audit Dashboard</h1>
+                        <p class="text-xs text-gray-500 mt-0.5 font-medium">Automated Policy & Guidance Extraction Workflow</p>
+                    </div>
+                </a>
             </div>
             
             <div class="flex bg-gray-100 p-1 rounded-lg">
