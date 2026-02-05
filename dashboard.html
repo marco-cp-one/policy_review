@@ -157,7 +157,7 @@
                                 <div class="p-3 rounded-full mb-3 bg-white shadow-sm ring-1 ring-gray-100">
                                     <i data-lucide="bot" class="w-6 h-6 text-blue-600"></i>
                                 </div>
-                                <h4 class="font-heading font-bold text-sm text-gray-900 leading-tight">Step 2A: Extraction</h4>
+                                <h4 class="font-heading font-bold text-sm text-gray-900 leading-tight">Step 2A: Policy Extraction</h4>
                                 <p class="text-[10px] uppercase font-bold text-gray-400 mt-2 tracking-wide">Policy Extractor</p>
                                 <div class="absolute -top-2 -right-2 bg-blue-600 text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity">VIEW PROMPT</div>
                             </div>
@@ -193,7 +193,7 @@
                                 <div class="p-3 rounded-full mb-3 bg-white shadow-sm ring-1 ring-gray-100">
                                     <i data-lucide="bot" class="w-6 h-6 text-blue-600"></i>
                                 </div>
-                                <h4 class="font-heading font-bold text-sm text-gray-900 leading-tight">Step 2B: SOP Builder</h4>
+                                <h4 class="font-heading font-bold text-sm text-gray-900 leading-tight">Step 2B: Guidance Extraction</h4>
                                 <p class="text-[10px] uppercase font-bold text-gray-400 mt-2 tracking-wide">Guidance Extractor</p>
                                 <div class="absolute -top-2 -right-2 bg-blue-600 text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity">VIEW PROMPT</div>
                             </div>
@@ -409,7 +409,7 @@
                 content: `# ROLE\nYou are a Senior Technical Writer and Compliance Archivist. You are executing "Phase 2" of a policy migration project.\n\n# INPUT\n1.  **Source File:** The original PDF [Filename.pdf].\n2.  **Target Scope:** A specific list of **Section IDs** provided below.\n\n# SPECIFIC TASK: POLICY EXTRACTION\nYou are provided with a list of Section IDs identified as **Policy**. Your goal is to create a Core Policy document.\n\n# INPUT LIST\n**Extract the following IDs:**\n[PASTE LIST OF IDs HERE, e.g., 2.1, 4.5]\n\n# INSTRUCTIONS\n1.  **Focus:** You are extracting procedures, tips, and workflows.\n2.  **Step Logic:** Ensure numbered lists (1, 2, 3...) are preserved as such to maintain the order of operations.\n3.  **Visual Elements:**\n    * If the PDF contains a screenshot or diagram in these sections, insert a placeholder: \`*[Reference to Image/Screenshot: Description of what is shown]*\`.\n    * Capture content inside "Note" or "Tip" boxes using Markdown blockquotes (\`>\`).\n\n# OUTPUT FORMAT\nReturn a single Markdown block containing all requested sections sequentially.\n\n## [Section ID] [Section Title]\n[Verbatim Text Body]`
             },
             guidance_extract: {
-                title: "Step 2B: Guidance SOP Builder",
+                title: "Step 2B: Guidance Extraction",
                 shortName: "Guidance Builder",
                 description: "Takes sections flagged as [PURE GUIDANCE] and builds a Standard Operating Procedure.",
                 details: {
@@ -641,7 +641,7 @@
             } else if (section.type === "PURE GUIDANCE") {
                 typeColor = "text-green-700 bg-green-50 border-green-200";
                 promptKey = "guidance_extract";
-                routingText = "Logic: Contains only instructions. Sent to SOP Builder.";
+                routingText = "Logic: Contains only instructions. Sent to Guidance Extraction.";
                 simulationHTML = `<div class="p-6 rounded-lg bg-green-50 border border-green-100 mb-4">${section.logic}</div>`;
             } else {
                 typeColor = "text-orange-700 bg-orange-50 border-orange-200";
