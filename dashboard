@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Policy Audit Dashboard</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans"', 'sans-serif'],
+                        heading: ['"Jost"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* Custom Scrollbar for code blocks */
+        .custom-scroll::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #1f2937; 
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #4b5563; 
+            border-radius: 4px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: #6b7280; 
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.2s ease-out forwards;
+        }
+        
+        .tab-active {
+            background-color: white;
+            color: #1d4ed8; /* blue-700 */
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+        .tab-inactive {
+            color: #6b7280; /* gray-500 */
+        }
+        .tab-inactive:hover {
+            color: #111827; /* gray-900 */
+        }
+
+        .filter-btn-active {
+            background-color: #111827; /* gray-900 */
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .filter-btn-inactive {
+            color: #6b7280;
+            background-color: transparent;
+        }
+        .filter-btn-inactive:hover {
+            background-color: #f9fafb; /* gray-50 */
+            color: #111827;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 font-sans selection:bg-blue-100 min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-30 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="bg-gradient-to-br from-blue-600 to-blue-700 text-white p-2 rounded-lg shadow-md">
+                    <i data-lucide="layers" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h1 class="font-heading font-bold text-xl leading-none tracking-tight text-gray-900">Policy Audit Dashboard</h1>
+                    <p class="text-xs text-gray-500 mt-0.5 font-medium">Automated Policy & Guidance Extraction Workflow</p>
+                </div>
+            </div>
+            
+            <div class="flex bg-gray-100 p-1 rounded-lg">
+                <button onclick="switchTab('workflow')" id="tab-workflow" class="tab-active px-4 py-2 rounded-md text-sm font-bold transition-all">
+                    Workflow View
+                </button>
+                <button onclick="switchTab('matrix')" id="tab-matrix" class="tab-inactive px-4 py-2 rounded-md text-sm font-bold transition-all">
+                    Audit Matrix
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-8 flex-1 w-full">
+        
+        <!-- WORKFLOW VIEW -->
+        <div id="view-workflow" class="block animate-fade-in">
+            <div class="bg-white p-10 rounded-3xl shadow-sm border border-gray-200 mb-8 overflow-hidden relative">
+                <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-500 via-purple-500 to-green-500"></div>
+                <h2 class="font-heading text-2xl font-bold mb-8 text-gray-900 flex items-center gap-2">
+                    <i data-lucide="layers" class="w-6 h-6 text-gray-400"></i>
+                    Visual Workflow
+                </h2>
+                
+                <div class="flex flex-col xl:flex-row items-center justify-center gap-8 relative pb-8">
+                    
+                    <!-- Step 1 -->
+                    <div class="relative group flex flex-col items-center justify-center p-4 rounded-xl border-2 border-gray-200 w-48 text-center bg-white transition-all duration-300">
+                        <div class="p-3 rounded-full mb-3 bg-gray-100">
+                            <i data-lucide="file-text" class="w-6 h-6 text-gray-700"></i>
+                        </div>
+                        <h4 class="font-heading font-bold text-sm text-gray-900 leading-tight">Source Policy PDF</h4>
+                        <p class="text-[10px] uppercase font-bold text-gray-400 mt-2 tracking-wide">Raw Document</p>
+                    </div>
+                    
+                    <i data-lucide="arrow-right" class="text-gray-300 w-6 h-6 xl:rotate-0 rotate-90"></i>
+                    
+                    <!-- Step 2: Skeleton -->
+                    <div onclick="openPromptModal('skeleton')" class="relative group flex flex-col items-center justify-center p-4 rounded-xl border-2 border-blue-200 hover:border-blue-500 w-48 text-center bg-white cursor-pointer hover:scale-105 hover:shadow-lg transition-all duration-300">
+                        <div class="p-3 rounded-full mb-3 bg-white shadow-sm ring-1 ring-gray-100">
+                            <i data-lucide="bot" class="w-6 h-6 text-blue-600"></i>
+                        </div>
+                        <h4 class="font-heading font-bold text-sm text-gray-900 leading-tight">Step 1: Classification</h4>
+                        <p class="text-[10px] uppercase font-bold text-gray-400 mt-2 tracking-wide">Skeleton Prompt</p>
+                        <div class="absolute -top-2 -right-2 bg-blue-600 text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity">VIEW PROMPT</div>
+                    </div>
+                    
+                    <i data-lucide="arrow-right" class="text-gray-300 w-6 h-6 xl:rotate-0 rotate-90"></i>
+
+                    <!-- Step 3: Branching -->
+                    <div class="flex flex-col gap-6 w-full xl:w-auto p-6 bg-gray-50 rounded-2xl border border-gray-100">
+                        
+                        <!-- Branch A: Policy -->
+                        <div class="flex items-center gap-4">
+                            <div class="w-2 h-2 rounded-full bg-red-400"></div>
+                            <div onclick="openPromptModal('policy_extract')" class="relative group flex flex-col items-center justify-center p-4 rounded-xl border-2 border-red-200 hover:border-red-500 w-48 text-center bg-white cursor-pointer hover:scale-105 hover:shadow-lg transition-all duration-300">
+                                <div class="p-3 rounded-full mb-3 bg-white shadow-sm ring-1 ring-gray-100">
+                                    <i data-lucide="bot" class="w-6 h-6 text-blue-600"></i>
+                                </div>
+                                <h4 class="font-heading font-bold text-sm text-gray-900 leading-tight">Step 2A: Extraction</h4>
+                                <p class="text-[10px] uppercase font-bold text-gray-400 mt-2 tracking-wide">Policy Extractor</p>
+                                <div class="absolute -top-2 -right-2 bg-blue-600 text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity">VIEW PROMPT</div>
+                            </div>
+                            <i data-lucide="arrow-right" class="text-gray-300 w-5 h-5"></i>
+                            <div class="w-40 bg-red-50 border border-red-100 rounded-lg p-3 text-center">
+                                <i data-lucide="shield-alert" class="w-5 h-5 text-red-600 mx-auto mb-1"></i>
+                                <span class="text-xs font-bold text-red-800 block">Policy Register</span>
+                            </div>
+                        </div>
+
+                        <!-- Branch B: Hybrid -->
+                        <div class="flex items-center gap-4">
+                            <div class="w-2 h-2 rounded-full bg-orange-400"></div>
+                            <div onclick="openPromptModal('hybrid_reconstruct')" class="relative group flex flex-col items-center justify-center p-4 rounded-xl border-2 border-orange-200 hover:border-orange-500 w-48 text-center bg-white cursor-pointer hover:scale-105 hover:shadow-lg transition-all duration-300">
+                                <div class="p-3 rounded-full mb-3 bg-white shadow-sm ring-1 ring-gray-100">
+                                    <i data-lucide="bot" class="w-6 h-6 text-blue-600"></i>
+                                </div>
+                                <h4 class="font-heading font-bold text-sm text-gray-900 leading-tight">Step 2C: Color Coding</h4>
+                                <p class="text-[10px] uppercase font-bold text-gray-400 mt-2 tracking-wide">Hybrid Reconstruction</p>
+                                <div class="absolute -top-2 -right-2 bg-blue-600 text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity">VIEW PROMPT</div>
+                            </div>
+                            <i data-lucide="arrow-right" class="text-gray-300 w-5 h-5"></i>
+                            <div class="w-40 bg-white border border-orange-200 rounded-lg p-3 text-center shadow-sm">
+                                <span class="text-[10px] font-bold text-red-600 bg-red-50 px-1 rounded block mb-1">Policy Elements</span>
+                                <span class="text-[10px] font-bold text-green-600 bg-green-50 px-1 rounded block">Guidance Elements</span>
+                            </div>
+                        </div>
+
+                        <!-- Branch C: Guidance -->
+                        <div class="flex items-center gap-4">
+                            <div class="w-2 h-2 rounded-full bg-green-400"></div>
+                            <div onclick="openPromptModal('guidance_extract')" class="relative group flex flex-col items-center justify-center p-4 rounded-xl border-2 border-green-200 hover:border-green-500 w-48 text-center bg-white cursor-pointer hover:scale-105 hover:shadow-lg transition-all duration-300">
+                                <div class="p-3 rounded-full mb-3 bg-white shadow-sm ring-1 ring-gray-100">
+                                    <i data-lucide="bot" class="w-6 h-6 text-blue-600"></i>
+                                </div>
+                                <h4 class="font-heading font-bold text-sm text-gray-900 leading-tight">Step 2B: SOP Builder</h4>
+                                <p class="text-[10px] uppercase font-bold text-gray-400 mt-2 tracking-wide">Guidance Extractor</p>
+                                <div class="absolute -top-2 -right-2 bg-blue-600 text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity">VIEW PROMPT</div>
+                            </div>
+                            <i data-lucide="arrow-right" class="text-gray-300 w-5 h-5"></i>
+                            <div class="w-40 bg-green-50 border border-green-100 rounded-lg p-3 text-center">
+                                <i data-lucide="book-open" class="w-5 h-5 text-green-600 mx-auto mb-1"></i>
+                                <span class="text-xs font-bold text-green-800 block">SOP Manual</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MATRIX VIEW -->
+        <div id="view-matrix" class="hidden animate-fade-in">
+            <!-- Controls -->
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
+                <div class="relative w-full md:w-96 group">
+                    <i data-lucide="search" class="absolute left-3 top-2.5 w-5 h-5 text-gray-400"></i>
+                    <input 
+                        type="text" 
+                        id="search-input"
+                        placeholder="Search by ID, Title, or Logic..." 
+                        class="pl-10 pr-4 py-2.5 bg-white border border-gray-300 rounded-xl shadow-sm outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full text-sm transition-all"
+                        oninput="renderMatrix()"
+                    />
+                </div>
+
+                <div class="flex p-1 bg-white border border-gray-200 rounded-xl shadow-sm gap-1" id="filter-container">
+                    <!-- Buttons injected via JS -->
+                </div>
+            </div>
+
+            <!-- Grid -->
+            <div id="matrix-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Cards injected via JS -->
+            </div>
+            
+            <div id="no-results" class="hidden text-center py-24">
+                <div class="bg-gray-100 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i data-lucide="filter" class="w-10 h-10 text-gray-400"></i>
+                </div>
+                <h3 class="font-heading text-lg font-bold text-gray-900">No sections found</h3>
+                <p class="text-gray-500">Try adjusting your search terms or filters.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- PROMPT MODAL -->
+    <div id="prompt-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-5xl h-[85vh] flex flex-col overflow-hidden animate-fade-in">
+            <!-- Header -->
+            <div class="p-6 border-b border-gray-100 flex justify-between items-start bg-gray-50">
+                <div>
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="bg-blue-100 text-blue-800 text-xs font-bold px-2 py-0.5 rounded uppercase">Prompt Viewer</span>
+                    </div>
+                    <h3 id="prompt-modal-title" class="font-heading text-xl font-bold text-gray-800 flex items-center gap-2"></h3>
+                </div>
+                <button onclick="closeModal('prompt-modal')" class="p-2 hover:bg-gray-200 rounded-full transition-colors">
+                    <i data-lucide="x" class="w-5 h-5 text-gray-500"></i>
+                </button>
+            </div>
+
+            <!-- Body -->
+            <div class="flex-1 flex overflow-hidden">
+                <!-- Left: Details -->
+                <div class="w-1/3 bg-white border-r border-gray-200 p-6 overflow-y-auto">
+                    <h4 class="font-heading flex items-center gap-2 font-bold text-gray-900 mb-4">
+                        <i data-lucide="lightbulb" class="w-4 h-4 text-yellow-500"></i>
+                        About this Prompt
+                    </h4>
+                    <p id="prompt-desc" class="text-gray-600 text-sm leading-relaxed mb-6"></p>
+                    <div class="space-y-4">
+                        <div>
+                            <span class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Primary Goal</span>
+                            <p id="prompt-goal" class="text-sm font-medium text-gray-800"></p>
+                        </div>
+                        <div>
+                            <span class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Methodology</span>
+                            <p id="prompt-method" class="text-sm font-medium text-gray-800"></p>
+                        </div>
+                        <div>
+                            <span class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Expected Output</span>
+                            <p id="prompt-output" class="text-sm font-medium text-gray-800"></p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Right: Code -->
+                <div class="w-2/3 bg-gray-900 overflow-hidden relative flex flex-col">
+                    <div class="p-3 bg-gray-800 border-b border-gray-700 flex justify-between items-center">
+                        <span class="text-xs font-mono text-gray-400">System Instructions</span>
+                    </div>
+                    <div class="flex-1 overflow-y-auto p-6 custom-scroll">
+                        <pre id="prompt-content" class="text-gray-100 font-mono text-sm leading-relaxed whitespace-pre-wrap"></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="p-4 border-t border-gray-100 bg-white flex justify-end">
+                <button onclick="closeModal('prompt-modal')" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium">
+                    Close Viewer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION DETAIL MODAL -->
+    <div id="section-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-gray-900/40 backdrop-blur-sm">
+        <div class="bg-gray-100 w-full max-w-6xl h-[90vh] rounded-2xl shadow-2xl flex overflow-hidden animate-fade-in">
+            
+            <!-- LEFT COLUMN -->
+            <div class="w-1/3 bg-white border-r border-gray-200 flex flex-col h-full overflow-y-auto custom-scroll">
+                <div class="p-6 border-b border-gray-100">
+                    <button onclick="closeModal('section-modal')" class="mb-4 text-sm text-gray-500 hover:text-gray-800 flex items-center gap-1">
+                        <i data-lucide="arrow-right" class="w-4 h-4 rotate-180"></i> Back to Matrix
+                    </button>
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="text-gray-400 font-mono text-xs uppercase tracking-wider">Phase 1: Skeleton Classification</span>
+                        <span id="section-type-badge" class="text-[10px] font-bold px-2 py-0.5 rounded border uppercase"></span>
+                    </div>
+                    <h2 id="section-modal-title" class="font-heading text-3xl font-bold text-gray-900 mb-1"></h2>
+                    <p id="section-modal-id" class="text-gray-500 font-mono text-sm"></p>
+                </div>
+
+                <div class="p-6 space-y-6">
+                    <!-- Logic Box -->
+                    <div class="bg-gray-50 rounded-xl border border-gray-200 p-5">
+                        <h4 class="font-heading flex items-center gap-2 text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">
+                            <i data-lucide="eye" class="w-4 h-4"></i> Audit Logic & Proof of Scrutiny
+                        </h4>
+                        <div id="section-logic-container" class="space-y-3"></div>
+                    </div>
+
+                    <!-- Prompt Box -->
+                    <div class="bg-gray-900 rounded-xl overflow-hidden flex flex-col text-white shadow-lg">
+                        <div class="p-4 bg-gray-800 flex justify-between items-center border-b border-gray-700">
+                            <div>
+                                <h4 id="section-prompt-name" class="font-heading font-bold text-sm"></h4>
+                            </div>
+                            <button onclick="togglePromptFromSection()" class="text-xs text-blue-300 hover:text-white transition-colors">
+                                Toggle Full Prompt
+                            </button>
+                        </div>
+                        <div id="section-prompt-preview" class="p-4 font-mono text-xs text-gray-300 h-64 overflow-y-auto custom-scroll"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN -->
+            <div class="w-2/3 bg-gray-100 p-8 flex flex-col h-full overflow-y-auto relative custom-scroll">
+                <div class="flex items-center gap-2 mb-4 text-gray-500 font-bold uppercase text-xs tracking-wider">
+                    <i data-lucide="file-text" class="w-4 h-4"></i> Destination
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-xl border border-gray-200 min-h-[500px] flex flex-col relative overflow-hidden">
+                    <!-- Fake Window Header -->
+                    <div class="bg-orange-50 border-b border-orange-100 p-3 flex justify-between items-center">
+                        <span id="document-filename" class="text-xs font-mono text-gray-600 font-medium"></span>
+                        <div class="flex gap-1.5">
+                            <div class="w-2.5 h-2.5 rounded-full bg-red-400"></div>
+                            <div class="w-2.5 h-2.5 rounded-full bg-yellow-400"></div>
+                            <div class="w-2.5 h-2.5 rounded-full bg-green-400"></div>
+                        </div>
+                    </div>
+
+                    <!-- Document Content -->
+                    <div class="p-8 md:p-12 font-serif text-gray-800 leading-loose text-lg">
+                        <h1 id="doc-title" class="font-heading text-2xl font-bold mb-8 font-sans text-gray-900 border-b pb-4"></h1>
+                        <div id="doc-content-area"></div>
+                    </div>
+                </div>
+
+                <!-- Footer Routing Logic -->
+                <div class="mt-6 bg-blue-50 rounded-xl p-4 border border-blue-100 flex items-start gap-3">
+                    <i data-lucide="layers" class="w-5 h-5 text-blue-600 mt-1 flex-shrink-0"></i>
+                    <div>
+                       <h5 class="font-heading text-sm font-bold text-blue-900 mb-1">Routing Logic:</h5>
+                       <p id="routing-logic-text" class="text-sm text-blue-800 leading-relaxed"></p>
+                    </div>
+               </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // --- DATA CONSTANTS ---
+        const PROMPTS = {
+            skeleton: {
+                title: "Step 1: Skeleton Classification",
+                shortName: "Skeleton Prompt",
+                description: "Analyzes the source PDF to classify sections based on the 'Litmus Test'.",
+                details: {
+                    goal: "Classify sections as Policy, Guidance, or Hybrid.",
+                    method: "The 'Litmus Test' (Governing Rules vs. Operational Instructions).",
+                    output: "Markdown Table with Audit Logic & Proof of Scrutiny."
+                },
+                content: `# ROLE\nYou are a Senior Policy Compliance Auditor and Data Structuring Expert. Your task is to analyze a Procurement Policy document to classify its Sections and Sub-sections based on their functional nature.\n\n# OBJECTIVE\nClassify each **Section ID** (e.g., 1.2, 4.1) as **[PURE POLICY]**, **[PURE GUIDANCE]**, or **[HYBRID]**.\n* **Strict Hybrid Rule:** If a section contains *any* mixture of Policy elements and Guidance elements (even a single sentence of each), the entire section MUST be labeled **[HYBRID]**.\n\n# THE "LITMUS TEST" (CRITICAL MENTAL MODEL)\nYou must distinguish between **GOVERNING RULES** and **OPERATIONAL INSTRUCTIONS**.\n* **Policy (The "What" & "Who"):** Establishes authority, prohibits actions, or sets a core requirement. It creates the obligation.\n* **Guidance (The "How"):** Describes the workflow, technical steps, or thinking process to fulfill the Policy.\n    * *Warning:* Operational instructions often use words like "shall" or "must" (e.g., "The user shall click submit"). **This is still Guidance.**\n\n# GROUND TRUTH DEFINITIONS\n\n### A. DEFINITION OF POLICY (Label: [P])\nText is **Policy** *only* if it falls into these categories:\n1.  **Mandates & Prohibitions:** Broad directions that require, permit, or constrain activities (e.g., "Solicitation *must* be carried out").\n2.  **Authorities:** Statements of who can make decisions (e.g., "Only the Director may sign").\n3.  **Core Control Points:** The *existence* of a mandatory requirement (e.g., "A Bank Guarantee is required for all contracts over $250k").\n4.  **Decisions:** Explicit statements on what decisions may/may not be made.\n\n### B. DEFINITION OF GUIDANCE (Label: [G])\nText is **Guidance** if it falls into *any* of these categories:\n1.  **Operational/Procedural Instructions:** Detailed steps, workflows, or technical tasks (e.g., "To file a claim, log in and upload the PDF").\n2.  **Thinking Processes:** Suggestions on how to analyze a situation (e.g., "Procurement officials should consider...", "First, consider whether...").\n3.  **Summaries & Reiterations:** Text that merely quotes or summarizes *existing* rules (e.g., "As per FRR 118.03...", "The regulations state that..."). *Quoting a rule is not making a new one.*\n4.  **Best Practices:** Recommendations or tips (e.g., "It is recommended to...").\n5.  **Templates/Formats:** Instructions on specific forms or file types.\n\n# INSTRUCTIONS: THE AUDIT PROCESS\n\n**Step 1: Component Scanning**\nFor every Section ID, break the text into its components (Paragraphs, Bullet points, Footnotes).\n\n**Step 2: Micro-Labeling**\nAssign a label ([P] or [G]) to each component using the definitions above.\n* *Example Analysis:*\n    * "Procurement officials should consider the following steps:" -> **[G]** (Suggestion/Lead-in)\n    * "(a) First, consider whether requirements could be met..." -> **[G]** (Thinking process)\n    * "(b) If not met, a solicitation process **must** be carried out..." -> **[P]** (Mandate/Core Control Point)\n\n**Step 3: Aggregation (The Classification)**\n* If **All** components are [P] -> **[PURE POLICY]**\n* If **All** components are [G] -> **[PURE GUIDANCE]**\n* If **Any** mix of [P] and [G] exists -> **[HYBRID]**\n\n# OUTPUT FORMAT\nProvide a Markdown Table with a summary of your audit logic.\n\n| Section ID | Section Title | Classification | Audit Logic (Proof of Scrutiny) |\n| :--- | :--- | :--- | :--- |\n| **[ID]** | **[Title]** | **[TAG]** | • **Para 1:** [G] Summary of FRR rules (Context).<br>• **Point (a):** [G] "Consider whether..." (Thinking process).<br>• **Point (b):** [P] "Solicitation must be carried out" (Mandatory requirement).<br>**Conclusion:** Hybrid (Mixed Suggestion & Mandate). |\n\n# FINAL COMMAND\nAnalyze the attached content. Be extremely careful with lists: if a list contains both "Considerations" (Guidance) and "Mandatory Actions" (Policy), you must catch that contradiction and label the section **[HYBRID]**.`
+            },
+            policy_extract: {
+                title: "Step 2A: Policy Register Extraction",
+                shortName: "Policy Extractor",
+                description: "Takes sections flagged as [PURE POLICY] and extracts verbatim mandates.",
+                details: {
+                    goal: "Generate a clean, authority-focused 'Policy Register'.",
+                    method: "Verbatim extraction of Mandates, Prohibitions, and Authorities.",
+                    output: "Sequential Markdown block of Core Policy."
+                },
+                content: `# ROLE\nYou are a Senior Technical Writer and Compliance Archivist. You are executing "Phase 2" of a policy migration project.\n\n# INPUT\n1.  **Source File:** The original PDF [Filename.pdf].\n2.  **Target Scope:** A specific list of **Section IDs** provided below.\n\n# SPECIFIC TASK: POLICY EXTRACTION\nYou are provided with a list of Section IDs identified as **Policy**. Your goal is to create a Core Policy document.\n\n# INPUT LIST\n**Extract the following IDs:**\n[PASTE LIST OF IDs HERE, e.g., 2.1, 4.5]\n\n# INSTRUCTIONS\n1.  **Focus:** You are extracting procedures, tips, and workflows.\n2.  **Step Logic:** Ensure numbered lists (1, 2, 3...) are preserved as such to maintain the order of operations.\n3.  **Visual Elements:**\n    * If the PDF contains a screenshot or diagram in these sections, insert a placeholder: \`*[Reference to Image/Screenshot: Description of what is shown]*\`.\n    * Capture content inside "Note" or "Tip" boxes using Markdown blockquotes (\`>\`).\n\n# OUTPUT FORMAT\nReturn a single Markdown block containing all requested sections sequentially.\n\n## [Section ID] [Section Title]\n[Verbatim Text Body]`
+            },
+            guidance_extract: {
+                title: "Step 2B: Guidance SOP Builder",
+                shortName: "Guidance Builder",
+                description: "Takes sections flagged as [PURE GUIDANCE] and builds a Standard Operating Procedure.",
+                details: {
+                    goal: "Build a user-friendly 'Standard Operating Procedure' (SOP).",
+                    method: "Extraction of Workflows, Tips, and Procedural Steps.",
+                    output: "Sequential Markdown block with visual placeholders."
+                },
+                content: `# ROLE\nYou are a Senior Technical Writer and Compliance Archivist. You are executing "Phase 2" of a policy migration project.\n\n# INPUT\n1.  **Source File:** The original PDF [Filename.pdf].\n2.  **Target Scope:** A specific list of **Section IDs** provided below.\n\n# SPECIFIC TASK: GUIDANCE EXTRACTION\nYou are provided with a list of Section IDs identified as **PURE GUIDANCE**. Your goal is to create a "Standard Operating Procedure" (SOP) document.\n\n# INPUT LIST\n**Extract the following IDs:**\n[PASTE LIST OF IDs HERE, e.g., 2.1, 4.5]\n\n# INSTRUCTIONS\n1.  **Focus:** You are extracting procedures, tips, and workflows.\n2.  **Step Logic:** Ensure numbered lists (1, 2, 3...) are preserved as such to maintain the order of operations.\n3.  **Visual Elements:**\n    * If the PDF contains a screenshot or diagram in these sections, insert a placeholder: \`*[Reference to Image/Screenshot: Description of what is shown]*\`.\n    * Capture content inside "Note" or "Tip" boxes using Markdown blockquotes (\`>\`).\n\n# OUTPUT FORMAT\nReturn a single Markdown block containing all requested sections sequentially.\n\n## [Section ID] [Section Title]\n[Verbatim Text Body]`
+            },
+            hybrid_reconstruct: {
+                title: "Step 2C: Hybrid Reconstruction",
+                shortName: "Hybrid Color Coding",
+                description: "Takes [HYBRID] sections and color-codes the text (Red=Policy, Green=Guidance).",
+                details: {
+                    goal: "Visually distinguish Mandates from Advice within the same paragraph.",
+                    method: "Guided Reconstruction mapping Blueprint logic to Verbatim text.",
+                    output: "HTML-styled text blocks (Red for Policy, Green for Guidance)."
+                },
+                content: `# ROLE\nYou are a Senior Policy Editor. You are performing a **Guided Reconstruction** of a specific "Hybrid" section.\n\n# THE PROCESS (Mapping Logic)\nDo not re-evaluate "What is Policy?". Instead, map the **Blueprint** to the **PDF** step-by-step:\n\n1. Read the Blueprint Component (from Skeleton).\n2. Locate in PDF: Find the full paragraph in the PDF.\n3. Extract & Color:\n   * If Blueprint says [P] -> Apply <span style="color: red">**RED**</span>.\n   * If Blueprint says [G] -> Apply <span style="color: green">**GREEN**</span>.\n\n# CRITICAL CONSTRAINTS\n* **Trust the Blueprint:** If the Blueprint says a paragraph is [P], mark it Red, even if you think it looks like guidance.\n* **100% Verbatim:** You must retrieve the **full sentences**.`
+            }
+        };
+
+        const SECTIONS = [
+            { id: "6.1", title: "Overview", type: "HYBRID", logic: "Para 1-2: [G] Describes process flow... Para 3: [P] Mandates selection criteria... Para 4: [G] 'Procurement officials should consider...'" },
+            { id: "6.2", title: "Types of competition", type: "PURE GUIDANCE", logic: "Para 1: [G] Contextual lead-in... No mandates." },
+            { id: "6.2.1", title: "Open international competition", type: "HYBRID", logic: "Para 1: [P] Default method... Para 2: [G] Lists cases... Para 3: [P] Restriction." },
+            { id: "6.2.2", title: "Limited international competition", type: "HYBRID", logic: "Para 1: [G] Definition... Para 2: [P] Prior written permission... Para 5: [G] Endeavour to ensure..." },
+            { id: "6.2.3", title: "Sole sourcing or direct contracting", type: "PURE GUIDANCE", logic: "Para 1: [G] Definitions... Para 2: [G] Navigation instruction." },
+            { id: "6.3", title: "Solicitation methods", type: "HYBRID", logic: "Para 1: [P] Sets thresholds... Para 2: [G] Flexibility/Option." },
+            { id: "6.3.1", title: "Shopping", type: "HYBRID", logic: "Para 1: [G] Definition... Para 2: [P] Procedural instruction... Para 3: [P] Core requirement." },
+            { id: "6.3.2", title: "Request for quotation", type: "HYBRID", logic: "Para 2: [P] Templates mandatory... Para 3: [P] 3 suppliers invited... Para 3: [G] Best practice." },
+            { id: "6.3.3", title: "Invitation to bid", type: "HYBRID", logic: "Para 1: [P] Mandatory threshold... Para 2: [G] Describes one-envelope system." },
+            { id: "6.3.4", title: "Request for proposal", type: "HYBRID", logic: "Para 1: [P] Threshold > 250k... Para 2: [G] Two-envelope system... Para 3: [P] Minimum passing threshold." },
+            { id: "6.3.5", title: "Selection of method for works", type: "HYBRID", logic: "Para 1: [P] Prohibition... Bullets: [G] Thinking process... Bullets: [P] Authority." },
+            { id: "6.3.6", title: "Alternative procedures", type: "HYBRID", logic: "Para 1: [G] Summarizes existing... Para 4: [P] Subject to approval... Para 5: [P] Requirement." },
+            { id: "6.4", title: "Solicitation documents", type: "HYBRID", logic: "Para 1: [P] Standard docs mandatory... Para 2: [P] Prohibition... Para 3: [G] Context." },
+            { id: "6.5", title: "Components of solicitation docs", type: "HYBRID", logic: "List: [G] Components... Para 2: [G] Instructional Must... Para 3: [P] Prohibition." },
+            { id: "6.5.1", title: "Letter of invitation", type: "PURE POLICY", logic: "Para 1: [P] Must include letter, reference, and list." },
+            { id: "6.5.2", title: "Particulars and instructions", type: "HYBRID", logic: "Intro: [P] Authority... Table: [G] Recommended... Table: [P] Prohibition." },
+            { id: "6.5.3", title: "Evaluation criteria", type: "HYBRID", logic: "Para 1: [P] Requirement... Para 2: [G] Best Practice." },
+            { id: "6.5.3.1", title: "Formal and eligibility criteria", type: "HYBRID", logic: "Para 1: [G] Process... Bullets: [P] Requirement... Bullets: [P] Core Requirement." },
+            { id: "6.5.3.2", title: "Qualification and technical criteria", type: "HYBRID", logic: "Para 1: [G] Process... Para 2: [P] Methodology Mandate... Bullets: [G] Suggestions." },
+            { id: "6.5.3.3", title: "Financial criteria", type: "HYBRID", logic: "Para 1: [G] Best Practice... Para 2: [P] Restriction... Para (TCO): [G] Recommendation." },
+            { id: "6.5.3.4", title: "Criteria for joint ventures", type: "HYBRID", logic: "Para 1: [G] Context... Point (i): [P] Liability Rule... Point (iv): [P] Requirement." },
+            { id: "6.5.3.5", title: "Criteria for sub-contractors", type: "PURE POLICY", logic: "Para 1: [P] Requirement... Points (a-d): [P] Explicit eligibility criteria." },
+            { id: "6.5.4", title: "Schedule of requirements", type: "HYBRID", logic: "Para 1: [G] Permissive... Point (f): [P] Incoterms requirement." },
+            { id: "6.5.5", title: "Returnable bidding forms", type: "HYBRID", logic: "Para 1: [P] Requirement... Para 2/Table: [G] Examples." },
+            { id: "6.5.6", title: "Contractual information", type: "HYBRID", logic: "Point (a): [P] Requirement... Point (c): [P] Authority... Point (f): [G] Context." },
+            { id: "6.6.1", title: "Approval of documents", type: "PURE POLICY", logic: "Para 1: [P] Authority mandate. Para 1: [P] Pre-clearance requirement." },
+            { id: "6.6.2", title: "Distribution of documents", type: "PURE POLICY", logic: "Para 1: [P] eSourcing required. Para 2: [P] Fairness mandate. Para 3: [P] Pre-clearance." },
+            { id: "6.6.3", title: "Confidentiality of short list", type: "PURE POLICY", logic: "Para 1: [P] Prohibition on disclosure." },
+            { id: "6.6.4", title: "Amendments to documents", type: "HYBRID", logic: "Para 1: [P] Requirement... Para 2: [P] Authority... Para 3: [G] Thinking Process." },
+            { id: "6.6.5", title: "Cancellation of process", type: "PURE POLICY", logic: "Para 1: [P] Authority... Para 2: [P] Requirement." },
+            { id: "6.6.6", title: "Solicitation... direct contracting", type: "HYBRID", logic: "Para 2: [P] Requirement... Para 3: [P] Requirement... Para 4: [G] Permissive." },
+            { id: "6.6.7", title: "Solicitation against LTAs", type: "HYBRID", logic: "Para 1: [G] Context... Bullet 2: [P] Template requirement... Bullet 2: [P] Authority." },
+            { id: "6.7", title: "Communication with vendors", type: "HYBRID", logic: "Para 1: [P] Prohibition... Para 4(b): [G] Best Practice... Para 4(f): [G] Guidance." },
+            { id: "6.8.1", title: "Exceptions", type: "PURE POLICY", logic: "Para 1: [P] Authority... Points (i-x): [P] Legal grounds/Criteria." },
+            { id: "6.8.2", title: "Pre-selection", type: "HYBRID", logic: "Para 2: [P] Requirement... Para 2(i): [P] Requirement... Para 3: [G] Clarification." },
+            { id: "6.9", title: "Emergencies", type: "PURE GUIDANCE", logic: "Text: [G] Navigation/Cross-reference." },
+            { id: "6.10", title: "E-tendering", type: "HYBRID", logic: "Para 2: [P] Rule... Para 3: [G] Recommendation... Para 6: [P] Requirement." },
+        ];
+
+        let currentFilter = 'ALL';
+        let currentPromptKeyForSection = '';
+
+        // --- INIT ---
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            renderFilterButtons();
+            renderMatrix();
+        });
+
+        // --- TAB LOGIC ---
+        function switchTab(tabName) {
+            // Hide/Show Views
+            document.getElementById('view-workflow').classList.add('hidden');
+            document.getElementById('view-workflow').classList.remove('block');
+            document.getElementById('view-matrix').classList.add('hidden');
+            document.getElementById('view-matrix').classList.remove('block');
+
+            document.getElementById(`view-${tabName}`).classList.remove('hidden');
+            document.getElementById(`view-${tabName}`).classList.add('block');
+
+            // Update Tab Styles
+            const t1 = document.getElementById('tab-workflow');
+            const t2 = document.getElementById('tab-matrix');
+            
+            if(tabName === 'workflow') {
+                t1.className = "tab-active px-4 py-2 rounded-md text-sm font-bold transition-all";
+                t2.className = "tab-inactive px-4 py-2 rounded-md text-sm font-bold transition-all";
+            } else {
+                t2.className = "tab-active px-4 py-2 rounded-md text-sm font-bold transition-all";
+                t1.className = "tab-inactive px-4 py-2 rounded-md text-sm font-bold transition-all";
+            }
+            // Re-render to ensure icons load if switching for first time
+            lucide.createIcons();
+        }
+
+        // --- MATRIX LOGIC ---
+        function renderFilterButtons() {
+            const types = ['ALL', 'PURE POLICY', 'PURE GUIDANCE', 'HYBRID'];
+            const container = document.getElementById('filter-container');
+            container.innerHTML = types.map(type => `
+                <button onclick="setFilter('${type}')" 
+                    class="px-4 py-2 rounded-lg text-xs font-bold whitespace-nowrap transition-all ${currentFilter === type ? 'filter-btn-active' : 'filter-btn-inactive'}"
+                >
+                    ${type === 'ALL' ? 'All Sections' : type.replace('PURE ', '')}
+                </button>
+            `).join('');
+        }
+
+        function setFilter(type) {
+            currentFilter = type;
+            renderFilterButtons();
+            renderMatrix();
+        }
+
+        function renderMatrix() {
+            const searchVal = document.getElementById('search-input').value.toLowerCase();
+            const grid = document.getElementById('matrix-grid');
+            const noRes = document.getElementById('no-results');
+
+            const filtered = SECTIONS.filter(s => {
+                const matchesFilter = currentFilter === 'ALL' || s.type === currentFilter;
+                const matchesSearch = s.title.toLowerCase().includes(searchVal) || 
+                                      s.id.includes(searchVal) ||
+                                      s.logic.toLowerCase().includes(searchVal);
+                return matchesFilter && matchesSearch;
+            });
+
+            if(filtered.length === 0) {
+                grid.innerHTML = '';
+                noRes.classList.remove('hidden');
+            } else {
+                noRes.classList.add('hidden');
+                grid.innerHTML = filtered.map(section => {
+                    // Determine styling based on type
+                    let typeColor = "", promptKey = "", iconName = "";
+                    if (section.type === "PURE POLICY") {
+                        typeColor = "bg-red-50 border-red-200 text-red-800";
+                        iconName = "shield-alert";
+                        promptKey = "policy_extract";
+                    } else if (section.type === "PURE GUIDANCE") {
+                        typeColor = "bg-green-50 border-green-200 text-green-800";
+                        iconName = "book-open";
+                        promptKey = "guidance_extract";
+                    } else {
+                        typeColor = "bg-orange-50 border-orange-200 text-orange-800";
+                        iconName = "layers";
+                        promptKey = "hybrid_reconstruct";
+                    }
+
+                    // JSON stringify for passing to onclick
+                    const sectionStr = JSON.stringify(section).replace(/"/g, '&quot;');
+
+                    return `
+                    <div onclick="openSectionModal(${sectionStr})" class="group bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg hover:border-blue-300 transition-all duration-300 p-5 flex flex-col gap-3 cursor-pointer relative overflow-hidden">
+                        <div class="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <i data-lucide="maximize-2" class="w-5 h-5 text-blue-400"></i>
+                        </div>
+
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="font-mono text-gray-400 text-xs font-bold uppercase tracking-wider">ID: ${section.id}</span>
+                                <h3 class="font-heading font-bold text-gray-800 text-lg group-hover:text-blue-700 transition-colors">${section.title}</h3>
+                            </div>
+                        </div>
+                        
+                        <div class="self-start px-2 py-1 rounded text-[10px] font-bold flex items-center border uppercase tracking-wide ${typeColor}">
+                            <i data-lucide="${iconName}" class="w-3 h-3 mr-1"></i>
+                            ${section.type}
+                        </div>
+
+                        <div class="bg-gray-50 p-3 rounded-lg text-sm text-gray-600 border border-gray-100 mt-2">
+                            <strong class="block text-gray-400 text-[10px] uppercase font-bold mb-2 flex items-center gap-1">
+                                Audit Logic / Rationale
+                            </strong>
+                            <p class="line-clamp-2 text-gray-700 leading-relaxed">${section.logic}</p>
+                        </div>
+
+                        <div class="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
+                            <span class="text-xs text-gray-400 font-medium">Processed by:</span>
+                            <span class="flex items-center gap-1.5 text-xs font-bold text-gray-700 bg-gray-100 px-2 py-1 rounded">
+                                <i data-lucide="bot" class="w-3 h-3 text-blue-500"></i>
+                                ${PROMPTS[promptKey].shortName}
+                            </span>
+                        </div>
+                    </div>
+                    `;
+                }).join('');
+                lucide.createIcons();
+            }
+        }
+
+        // --- MODAL LOGIC ---
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+            document.getElementById(id).classList.remove('flex');
+        }
+
+        function openPromptModal(key) {
+            const p = PROMPTS[key];
+            if(!p) return;
+
+            document.getElementById('prompt-modal-title').innerHTML = `<i data-lucide="bot" class="w-6 h-6 text-blue-600"></i> ${p.title}`;
+            document.getElementById('prompt-desc').textContent = p.description;
+            document.getElementById('prompt-goal').textContent = p.details.goal;
+            document.getElementById('prompt-method').textContent = p.details.method;
+            document.getElementById('prompt-output').textContent = p.details.output;
+            document.getElementById('prompt-content').textContent = p.content;
+
+            const m = document.getElementById('prompt-modal');
+            m.classList.remove('hidden');
+            m.classList.add('flex');
+            lucide.createIcons();
+        }
+
+        function openSectionModal(section) {
+            let typeColor = "", promptKey = "", routingText = "";
+            let simulationHTML = "";
+            const filename = section.type === 'HYBRID' ? 'Hybrid_Analysis_View.md' : 'Extracted_Document.md';
+
+            // Configure based on type
+            if (section.type === "PURE POLICY") {
+                typeColor = "text-red-700 bg-red-50 border-red-200";
+                promptKey = "policy_extract";
+                routingText = "Logic: Contains only mandates. Sent to Policy Extractor for 'Clean Register'.";
+                simulationHTML = `<div class="p-6 rounded-lg bg-red-50 border border-red-100 mb-4">${section.logic}</div>`;
+            } else if (section.type === "PURE GUIDANCE") {
+                typeColor = "text-green-700 bg-green-50 border-green-200";
+                promptKey = "guidance_extract";
+                routingText = "Logic: Contains only instructions. Sent to SOP Builder.";
+                simulationHTML = `<div class="p-6 rounded-lg bg-green-50 border border-green-100 mb-4">${section.logic}</div>`;
+            } else {
+                typeColor = "text-orange-700 bg-orange-50 border-orange-200";
+                promptKey = "hybrid_reconstruct";
+                routingText = "Logic: Contains both Policy and Guidance. Sent to reconstruction prompt. Policy elements dyed RED, Guidance elements dyed GREEN.";
+                
+                // Parse Logic for Hybrid Sim
+                const parts = section.logic.split("...").map(p => p.trim()).filter(p => p.length > 0);
+                simulationHTML = parts.map(part => {
+                    const isPolicy = part.includes("[P]");
+                    const isGuidance = part.includes("[G]");
+                    const cleanText = part.replace(/\[P\]|\[G\]/g, "").trim();
+                    
+                    let bgClass = "bg-gray-50 border-gray-300";
+                    let textClass = "text-gray-600";
+                    let labelClass = "text-gray-400";
+                    let label = "NEUTRAL";
+
+                    if(isPolicy) {
+                        bgClass = "bg-red-50 border-red-400";
+                        textClass = "text-red-900 font-medium";
+                        labelClass = "text-red-500";
+                        label = "POLICY ELEMENT";
+                    } else if(isGuidance) {
+                        bgClass = "bg-green-50 border-green-400";
+                        textClass = "text-green-800 italic";
+                        labelClass = "text-green-600";
+                        label = "GUIDANCE ELEMENT";
+                    }
+
+                    return `
+                        <div class="p-4 rounded-lg border-l-4 mb-6 ${bgClass}">
+                            <span class="block text-xs font-bold uppercase mb-2 font-sans ${labelClass}">${label}</span>
+                            <p class="${textClass}">"${cleanText}..."</p>
+                        </div>
+                    `;
+                }).join('') + 
+                `<div class="absolute bottom-10 right-10 opacity-10 rotate-[-12deg] pointer-events-none">
+                    <span class="text-6xl font-black text-red-600 border-4 border-red-600 p-4 rounded-xl uppercase tracking-widest">
+                        Hybrid Section
+                    </span>
+                 </div>`;
+            }
+
+            // Populate DOM
+            currentPromptKeyForSection = promptKey;
+            const prompt = PROMPTS[promptKey];
+
+            document.getElementById('section-type-badge').className = `text-[10px] font-bold px-2 py-0.5 rounded border uppercase ${typeColor}`;
+            document.getElementById('section-type-badge').textContent = section.type;
+            document.getElementById('section-modal-title').textContent = section.title;
+            document.getElementById('section-modal-id').textContent = `Section ${section.id}`;
+            
+            // Logic breakdown
+            const logicHTML = section.logic.split("...").map(line => {
+                if(!line.trim()) return '';
+                const isP = line.includes("[P]");
+                const isG = line.includes("[G]");
+                let dotColor = "bg-gray-300";
+                if(isP) dotColor = "bg-red-500";
+                if(isG) dotColor = "bg-green-500";
+
+                return `
+                <div class="flex gap-3 text-sm leading-relaxed">
+                    <div class="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 ${dotColor}"></div>
+                    <p class="text-gray-700">${line.replace(/\[P\]|\[G\]/g, "").trim()}</p>
+                </div>`;
+            }).join('');
+            document.getElementById('section-logic-container').innerHTML = logicHTML;
+
+            // Prompt Preview
+            document.getElementById('section-prompt-name').textContent = `Applied Prompt: ${prompt.shortName}`;
+            document.getElementById('section-prompt-preview').textContent = prompt.content;
+
+            // Document Simulation
+            document.getElementById('document-filename').textContent = filename;
+            document.getElementById('doc-title').textContent = `${section.id} ${section.title}`;
+            document.getElementById('doc-content-area').innerHTML = simulationHTML;
+
+            // Footer
+            document.getElementById('routing-logic-text').textContent = routingText;
+
+            // Show Modal
+            const m = document.getElementById('section-modal');
+            m.classList.remove('hidden');
+            m.classList.add('flex');
+            lucide.createIcons();
+        }
+
+        function togglePromptFromSection() {
+            closeModal('section-modal');
+            openPromptModal(currentPromptKeyForSection);
+        }
+
+    </script>
+</body>
+</html>
